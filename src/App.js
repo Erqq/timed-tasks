@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Task from './components/task'
+import Task_list from './components/tasks-container';
 
-function App() {
-  return (
-    <div className="App">
-      <div className="container">
-        <header className="App-header">
+class App extends Component {
 
-          {Task("moimoi", "heihei")}
-        </header></div>
+  render() {
+    return (
+      <div className="App">
+        <div className="container">
+          <header className="App-header">
 
-    </div>
-  );
+            <Task_list />
+          </header>
+        </div>
+
+      </div>
+    )
+  }
 }
 
 export default App;
