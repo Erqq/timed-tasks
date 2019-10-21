@@ -25,9 +25,9 @@ const Task = (title, description, onDelete, index, startTime, stopTime) => {
         <p>{description}</p>
       </StyledContent>
       <StyledContent>
-        <p>started {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
+        <p>start {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
 
-        <p>stoped {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
+        <p>end {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
         <p>duration {moment.duration(moment(stopTime).diff(startTime)).asHours().toFixed(2)}h</p>
 
       </StyledContent>

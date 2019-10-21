@@ -118,9 +118,11 @@ class TaskList extends Component {
     return (
       <div>
         <TaskContainer name="container">
-          <div> <Button name="addTask" onClick={this.onClick} variant="contained" color="secondary" >
-            add task
-          </Button ></div>
+          <div>
+            <Button name="addTask" onClick={this.onClick} variant="contained" color="secondary" >
+              add task
+          </Button >
+          </div>
 
           <p>duration {this.getDuration().toFixed(2)}h </p>
 
