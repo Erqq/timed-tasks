@@ -16,10 +16,8 @@ class TaskList extends Component {
   state = {
     showModal: false,
     taskList: [],
-    title: "",
-    description: "",
-    startTime: new Date(),
-    stopTime: new Date(),
+
+
   }
 
   onClick = () => {
@@ -32,10 +30,9 @@ class TaskList extends Component {
     this.setState({ showModal: false })
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
-
-    const { title, description, taskList, startTime, stopTime } = this.state
+  onSubmit = (values) => {
+    const { taskList } = this.state
+    const { title, description, startTime, stopTime } = values
 
     this.setState({ taskList: [...taskList, { title, description, startTime, stopTime }] })
 
@@ -44,33 +41,11 @@ class TaskList extends Component {
   }
 
   onDelete = (event) => {
-    event.preventDefault();
     const { taskList } = this.state
-
     taskList.splice(event.currentTarget.id, 1)
     this.setState({ taskList })
 
 
-  }
-  onStartChange = (time) => {
-    const { stopTime } = this.state
-    this.setState({ startTime: time })
-    stopTime < time ? this.setState({ stopTime: time }) : this.setState({ stopTime })
-
-  }
-
-  onStopChange = (time) => {
-    const { startTime } = this.state
-
-    time < startTime ? this.setState({ stopTime: startTime }) : this.setState({ stopTime: time })
-
-  }
-
-  handleChange = (event) => {
-    const { target } = event;
-    const value = target.value;
-    const name = target.name;
-    this.setState({ [name]: value })
   }
 
   getDuration = () => {
@@ -96,7 +71,7 @@ class TaskList extends Component {
 
 
   render() {
-    const { showModal, startTime, stopTime } = this.state
+    const { showModal } = this.state
     return (
       <div>
         <TaskContainer name="container">
@@ -109,11 +84,7 @@ class TaskList extends Component {
             onSubmit={this.onSubmit}
             showModal={showModal}
             onClose={this.onClose}
-            handleChange={this.handleChange}
-            startTime={startTime}
-            stopTime={stopTime}
-            onStopChange={this.onStopChange}
-            onStartChange={this.onStartChange} />
+          />
 
 
         </TaskContainer>

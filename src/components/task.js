@@ -33,6 +33,8 @@ const Task = (title, description, onDelete, index, startTime, stopTime) => {
       </StyledContent>
 
       <div>
+        <Button id={index} onClick={onDelete} variant="contained" color="secondary">edit</Button>
+
         <Button id={index} onClick={onDelete} variant="contained" color="secondary">delete</Button>
       </div>
     </StyledDiv>
