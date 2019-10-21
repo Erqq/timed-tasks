@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Task from './components/task'
-import Task_list from './components/tasks-container';
+import TaskList from './components/tasks-container';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 class App extends Component {
 
@@ -10,8 +11,11 @@ class App extends Component {
       <div className="App">
         <div className="container">
           <header className="App-header">
+            <MuiPickersUtilsProvider utils={MomentUtils}>
 
-            <Task_list />
+              <TaskList />
+            </MuiPickersUtilsProvider >
+
           </header>
         </div>
 

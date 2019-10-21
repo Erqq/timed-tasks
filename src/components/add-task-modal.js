@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button, TextField } from '@material-ui/core/'
-import { styled } from '@material-ui/core/styles';
+import { Modal, Button, TextField, styled, } from '@material-ui/core/'
+import { DateTimePicker } from '@material-ui/pickers';
 
-const Modaldiv = styled('div')({
+const ModalContainer = styled('div')({
     position: "absolute",
-    width: 400,
+    width: 800,
     border: "2px solid #000",
     backgroundColor: "#53565c",
     top: "50%",
@@ -12,32 +12,79 @@ const Modaldiv = styled('div')({
     transform: "translate(-50%, -50%)"
 })
 
+const StyledDiv = styled('div')({
+    display: "flex",
+    justifyContent: "space-between",
+    margin: 10,
+    flexDirection: "column"
+
+})
+
+const ButtonContainer = styled("div")({
+    display: "flex",
+    justifyContent: "space-between",
+})
+
 class AddTaskModal extends Component {
 
-
     render() {
-        const { showModal, onClose, onSubmit, handleChange } = this.props
+        const {
+            showModal,
+            onClose,
+            onSubmit,
+            handleChange,
+            stopTime,
+            onStopChange,
+            onStartChange,
+            startTime } = this.props
 
         return (
-
-            <Modal open={showModal}
-                onClose={onClose}
-            >
-                <Modaldiv >
+            <Modal
+                open={showModal}
+                onClose={onClose}>
+                <ModalContainer>
                     <form onSubmit={onSubmit}>
-                        <TextField onChange={handleChange} name="title" label="Task Title" variant="filled"></TextField>
-                        <TextField onChange={handleChange} name="description" label="Task Description" variant="filled" ></TextField>
-                        <Button type="submit" variant="contained" color="secondary">add task</Button>
+                        <StyledDiv>
+                            <TextField
+                                required
+                                onChange={handleChange}
+                                name="title"
+                                label="Task Title"
+                                variant="filled" />
+                            <TextField
+                                required
+                                multiline
+                                onChange={handleChange}
+                                name="description"
+                                label="Task Description"
+                                variant="filled" />
+                            <DateTimePicker
+                                required
+                                margin="normal"
+                                id="time-picker"
+                                label="Start time"
+                                name="startTime"
+                                value={startTime}
+                                onChange={onStartChange}
+                            />
+                            <DateTimePicker
+                                margin="normal"
+                                id="time-picker"
+                                label="Stop time"
+                                name="stopTime"
+                                value={stopTime}
+                                onChange={onStopChange}
 
+                            />
+                        </StyledDiv>
+                        <ButtonContainer>
+                            <Button onClick={onClose} variant="contained" color="primary">cancel</Button>
+                            <Button type="submit" variant="contained" color="secondary">add task</Button>
+                        </ButtonContainer>
                     </form>
-                    <Button onClick={onClose} variant="contained" color="secondary">cancel</Button>
-
-                </Modaldiv>
+                </ModalContainer>
             </Modal>
-
-
         )
-
     }
 }
 
