@@ -16,12 +16,18 @@ class TaskList extends Component {
   state = {
     showModal: false,
     taskList: [],
-
+    type: "",
+    taskId: null
 
   }
 
-  onClick = () => {
-    this.setState({ showModal: true })
+  onClick = (event) => {
+
+    this.setState({
+      showModal: true,
+      type: event.currentTarget.name,
+      taskId: event.currentTarget.id
+    })
 
   }
 
@@ -32,9 +38,25 @@ class TaskList extends Component {
 
   onSubmit = (values) => {
     const { taskList } = this.state
-    const { title, description, startTime, stopTime } = values
+    const { title, description, } = values
+    let { startTime, stopTime } = values
+    startTime = moment(startTime)
+    stopTime = moment(stopTime)
 
     this.setState({ taskList: [...taskList, { title, description, startTime, stopTime }] })
+
+    this.onClose()
+
+  }
+
+  onEdit = (values) => {
+    const { taskId } = this.state
+
+    this.setState(prevState => {
+      let taskList = prevState.taskList
+      return taskList[taskId] = values
+
+    })
 
     this.onClose()
 
@@ -64,28 +86,45 @@ class TaskList extends Component {
   tasks = () => {
     const { taskList } = this.state
     return taskList.map((task, index) => {
-      return Task(task.title, task.description, this.onDelete, index, task.startTime, task.stopTime)
+      return Task(task.title, task.description, this.onClick, index, task.startTime, task.stopTime)
     })
   }
 
 
+  modalType = () => {
+    const { showModal, type, taskList, taskId } = this.state
+
+    if (type === "addTask") {
+      return <AddTaskModal
+        type={type}
+        onSubmit={this.onSubmit}
+        showModal={showModal}
+        onClose={this.onClose}
+      />
+    }
+    if (type === "editTask") {
+      return <AddTaskModal
+        values={taskList[taskId]}
+        type={type}
+        onSubmit={this.onEdit}
+        showModal={showModal}
+        onClose={this.onClose}
+      />
+    }
+
+  }
 
   render() {
-    const { showModal } = this.state
     return (
       <div>
         <TaskContainer name="container">
-          <div> <Button onClick={this.onClick} variant="contained" color="secondary" >
+          <div> <Button name="addTask" onClick={this.onClick} variant="contained" color="secondary" >
             add task
           </Button ></div>
 
           <p>duration {this.getDuration().toFixed(2)}h </p>
-          <AddTaskModal
-            onSubmit={this.onSubmit}
-            showModal={showModal}
-            onClose={this.onClose}
-          />
 
+          {this.modalType()}
 
         </TaskContainer>
         {this.tasks()}

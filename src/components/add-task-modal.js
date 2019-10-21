@@ -33,7 +33,11 @@ class AddTaskModal extends Component {
         startTime: new Date(),
         stopTime: new Date(),
     }
+    componentDidMount = () => {
+        const { values } = this.props
+        if (values) this.setState({ startTime: values.startTime, stopTime: values.stopTime })
 
+    }
     onStartChange = (time, setFieldValue) => {
         const { stopTime, startTime } = this.state
         this.setState({ startTime: time })
@@ -55,40 +59,41 @@ class AddTaskModal extends Component {
     }
 
     initialValues = () => {
+        const { values } = this.props
+
         return {
-            startTime: new Date(),
-            stopTime: new Date(),
-            title: "",
-            description: ""
+
+            title: values ? values.title : "",
+            description: values ? values.description : "",
+            startTime: values ? values.startTime : new Date(),
+            stopTime: values ? values.stopTime : new Date(),
         }
     }
 
     render() {
-        const { showModal, onClose, onSubmit, } = this.props
+        const { showModal, onClose, onSubmit, type } = this.props
+
         return (
             <Modal
                 open={showModal}
                 onClose={onClose}>
                 <ModalContainer>
                     <Formik
-                        onSubmit={(values) => {
-                            onSubmit(values); this.setState({
-                                startTime: new Date(),
-                                stopTime: new Date(),
-                            })
-                        }}
-                        initialValues={this.initialValues}
+                        onSubmit={onSubmit}
+                        initialValues={this.initialValues()}
                         render={props => (
                             <form onSubmit={props.handleSubmit}>
                                 <StyledDiv>
                                     <TextField
                                         required
+                                        value={props.values.title}
                                         onChange={props.handleChange}
                                         name="title"
                                         label="Task Title"
                                         variant="filled" />
                                     <TextField
                                         required
+                                        value={props.values.description}
                                         multiline
                                         onChange={props.handleChange}
                                         name="description"
@@ -114,8 +119,18 @@ class AddTaskModal extends Component {
                                     />
                                 </StyledDiv>
                                 <ButtonContainer>
-                                    <Button onClick={onClose} variant="contained" color="primary">cancel</Button>
-                                    <Button type="submit" variant="contained" color="secondary">add task</Button>
+                                    <Button
+                                        onClick={onClose}
+                                        variant="contained"
+                                        color="primary">
+                                        cancel
+                                         </Button>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="secondary">
+                                        {type === "addTask" ? "Add Task" : "edit"}
+                                    </Button>
                                 </ButtonContainer>
                             </form>
                         )}

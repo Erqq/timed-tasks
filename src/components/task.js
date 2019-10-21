@@ -25,17 +25,30 @@ const Task = (title, description, onDelete, index, startTime, stopTime) => {
         <p>{description}</p>
       </StyledContent>
       <StyledContent>
-        <p>start time {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
+        <p>started {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
 
-        <p>stop time {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
+        <p>stoped {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
         <p>duration {moment.duration(moment(stopTime).diff(startTime)).asHours().toFixed(2)}h</p>
 
       </StyledContent>
 
       <div>
-        <Button id={index} onClick={onDelete} variant="contained" color="secondary">edit</Button>
+        <Button
+          id={index}
+          name="editTask"
+          onClick={onDelete}
+          variant="contained"
+          color="secondary">
+          edit
+          </Button>
 
-        <Button id={index} onClick={onDelete} variant="contained" color="secondary">delete</Button>
+        <Button
+          id={index}
+          onClick={onDelete}
+          variant="contained"
+          color="secondary">
+          delete
+           </Button>
       </div>
     </StyledDiv>
   );
