@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button, TextField, styled, } from '@material-ui/core/'
 import { DateTimePicker } from '@material-ui/pickers';
 import { Formik } from "formik"
+import moment from 'moment'
 
 
 const ModalContainer = styled('div')({
@@ -39,33 +40,42 @@ class TaskModal extends Component {
      */
     componentDidMount = () => {
         const { values } = this.props
-        if (values) this.setState({ startTime: values.startTime, stopTime: values.stopTime })
+        values ? this.setState({ startTime: values.startTime, stopTime: values.stopTime }) :
+            this.setState({ startTime: new Date(), stopTime: new Date() })
     }
 
     /**
      * Onchange for the startTime. If startTime is greater than stopTime this also changes 
      * the stopTime to be equal to startTime and prevents the user picking wrong time and
-     * getting duration that is less than 0
+     * getting duration that is less than 0. This is not working properly. There is some 
+     * bugs with changing the date.
      */
     onStartChange = (time, setFieldValue) => {
-        const { stopTime, startTime } = this.state
+        const { stopTime } = this.state
         this.setState({ startTime: time })
         setFieldValue("startTime", time)
 
-        stopTime < time ?
-            this.setState({ stopTime: time } && setFieldValue("stopTime", time)) :
-            this.setState({ stopTime } && setFieldValue("stopTime", startTime))
+        if (moment(stopTime).isBefore(time)) {
+            this.setState({ stopTime: time })
+            setFieldValue("stopTime", time)
+        }
     }
 
     /**
-     * Onchange for the stopTime. Cant be less than startTime.
+     * Onchange for the stopTime. Cant be less than startTime. This is not working properly. 
+     * There is some bugs with changing the date.
      */
     onStopChange = (time, setFieldValue) => {
         const { startTime, } = this.state
 
-        time < startTime ?
-            this.setState({ stopTime: startTime } && setFieldValue("stopTime", startTime)) :
-            this.setState({ stopTime: time } && setFieldValue("stopTime", time))
+        if (moment(time).isBefore(startTime)) {
+            this.setState({ stopTime: startTime })
+            setFieldValue("stopTime", startTime)
+        } else {
+            this.setState({ stopTime: time })
+            setFieldValue("stopTime", time)
+        }
+
     }
 
     /**
