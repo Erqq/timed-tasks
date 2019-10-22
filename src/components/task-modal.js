@@ -63,7 +63,8 @@ class TaskModal extends Component {
 
     /**
      * Onchange for the stopTime. Cant be less than startTime. This is not working properly. 
-     * There is some bugs with changing the date.
+     * There is some bugs with changing the date. Sometimes lets to choose date that is before 
+     * startTime
      */
     onStopChange = (time, setFieldValue) => {
         const { startTime, } = this.state
