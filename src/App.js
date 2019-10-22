@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Task from './components/task'
+import TaskList from './components/tasks-container';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
-function App() {
-  return (
-    <div className="App">
-      <div className="container">
-        <header className="App-header">
+class App extends Component {
 
-          {Task("moimoi", "heihei")}
-        </header></div>
+  render() {
+    return (
+      <div className="App">
+        <div className="container">
+          <header className="App-header">
+            <MuiPickersUtilsProvider utils={MomentUtils}>
 
-    </div>
-  );
+              <TaskList />
+            </MuiPickersUtilsProvider >
+
+          </header>
+        </div>
+
+      </div>
+    )
+  }
 }
 
 export default App;
