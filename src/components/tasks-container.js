@@ -86,7 +86,7 @@ class TaskList extends Component {
   tasks = () => {
     const { taskList } = this.state
     return taskList.map((task, index) => {
-      return Task(task.title, task.description, this.onClick, index, task.startTime, task.stopTime)
+      return Task(task, this.onClick, this.onDelete, index)
     })
   }
 
@@ -124,7 +124,7 @@ class TaskList extends Component {
           </Button >
           </div>
 
-          <p>duration {this.getDuration().toFixed(2)}h </p>
+          <p>duration {this.getDuration().toFixed(1)}h </p>
 
           {this.modalType()}
 

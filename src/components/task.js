@@ -17,7 +17,8 @@ const StyledContent = styled("div")({
 
 })
 
-const Task = (title, description, onDelete, index, startTime, stopTime) => {
+const Task = (task, onClick, onDelete, index) => {
+  const { title, description, startTime, stopTime } = task
   return (
     <StyledDiv key={title + index} className="Task">
       <StyledContent>
@@ -28,7 +29,7 @@ const Task = (title, description, onDelete, index, startTime, stopTime) => {
         <p>start {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
 
         <p>end {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
-        <p>duration {moment.duration(moment(stopTime).diff(startTime)).asHours().toFixed(2)}h</p>
+        <p>duration {moment.duration(stopTime.diff(startTime)).asHours().toFixed(1)}h</p>
 
       </StyledContent>
 
@@ -36,7 +37,7 @@ const Task = (title, description, onDelete, index, startTime, stopTime) => {
         <Button
           id={index}
           name="editTask"
-          onClick={onDelete}
+          onClick={onClick}
           variant="contained"
           color="secondary">
           edit
