@@ -14,11 +14,17 @@ const StyledContent = styled("div")({
   flexDirection: "column",
   maxWidth: 600,
   overflowWrap: " break-word"
-
 })
 
 const Task = (task, onClick, onDelete, index) => {
   const { title, description, startTime, stopTime } = task
+
+  const getDuration = () => {
+    const duration = moment.duration(moment(stopTime).diff(startTime))
+
+    return `${duration.get("days")} days, ${duration.get("hours")} hours, ${duration.get("minutes")} minutes`
+  }
+
   return (
     <StyledDiv key={title + index} className="Task">
       <StyledContent>
@@ -27,12 +33,9 @@ const Task = (task, onClick, onDelete, index) => {
       </StyledContent>
       <StyledContent>
         <p>start {moment(startTime).format("DD.MM.YYYY, HH:mm")}</p>
-
         <p>end {moment(stopTime).format("DD.MM.YYYY, HH:mm")}</p>
-        <p>duration {moment.duration(stopTime.diff(startTime)).asHours().toFixed(1)}h</p>
-
+        <p>duration {getDuration()}</p>
       </StyledContent>
-
       <div>
         <Button
           id={index}
@@ -41,15 +44,14 @@ const Task = (task, onClick, onDelete, index) => {
           variant="contained"
           color="secondary">
           edit
-          </Button>
-
+        </Button>
         <Button
           id={index}
           onClick={onDelete}
           variant="contained"
           color="secondary">
           delete
-           </Button>
+        </Button>
       </div>
     </StyledDiv>
   );

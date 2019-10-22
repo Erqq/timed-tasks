@@ -28,16 +28,25 @@ const ButtonContainer = styled("div")({
 })
 
 
-class AddTaskModal extends Component {
+class TaskModal extends Component {
     state = {
         startTime: new Date(),
         stopTime: new Date(),
     }
+
+    /**
+     * Puts startTime and stopTime to state when editing the task
+     */
     componentDidMount = () => {
         const { values } = this.props
         if (values) this.setState({ startTime: values.startTime, stopTime: values.stopTime })
-
     }
+
+    /**
+     * Onchange for the startTime. If startTime is greater than stopTime this also changes 
+     * the stopTime to be equal to startTime and prevents the user picking wrong time and
+     * getting duration that is less than 0
+     */
     onStartChange = (time, setFieldValue) => {
         const { stopTime, startTime } = this.state
         this.setState({ startTime: time })
@@ -46,23 +55,26 @@ class AddTaskModal extends Component {
         stopTime < time ?
             this.setState({ stopTime: time } && setFieldValue("stopTime", time)) :
             this.setState({ stopTime } && setFieldValue("stopTime", startTime))
-
     }
 
+    /**
+     * Onchange for the stopTime. Cant be less than startTime.
+     */
     onStopChange = (time, setFieldValue) => {
         const { startTime, } = this.state
-        console.log(startTime);
 
         time < startTime ?
             this.setState({ stopTime: startTime } && setFieldValue("stopTime", startTime)) :
             this.setState({ stopTime: time } && setFieldValue("stopTime", time))
     }
 
+    /**
+     * Sets the initialvalues for the Formik. On add task returns default values and on edit 
+     * returns the tasks information
+     */
     initialValues = () => {
         const { values } = this.props
-
         return {
-
             title: values ? values.title : "",
             description: values ? values.description : "",
             startTime: values ? values.startTime : new Date(),
@@ -115,7 +127,6 @@ class AddTaskModal extends Component {
                                         name="stopTime"
                                         value={props.values.stopTime}
                                         onChange={(time) => this.onStopChange(time, props.setFieldValue)}
-
                                     />
                                 </StyledDiv>
                                 <ButtonContainer>
@@ -135,11 +146,10 @@ class AddTaskModal extends Component {
                             </form>
                         )}
                     />
-
                 </ModalContainer>
             </Modal>
         )
     }
 }
 
-export default AddTaskModal;
+export default TaskModal;
