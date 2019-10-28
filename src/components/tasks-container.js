@@ -3,6 +3,9 @@ import { styled, Button } from '@material-ui/core/';
 import TaskModal from './task-modal'
 import Task from './task'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { addTasklist } from '../ActionCreators'
 
 const TaskContainer = styled('div')({
   display: "flex",
@@ -48,6 +51,7 @@ class TaskList extends Component {
     stopTime = moment(stopTime)
 
     this.setState({ taskList: [...taskList, { title, description, startTime, stopTime }] })
+    addTasklist(taskList)
     this.onClose()
   }
 
@@ -129,6 +133,8 @@ class TaskList extends Component {
   }
 
   render() {
+    console.log(this.props);
+
     return (
       <div>
         <TaskContainer name="container">
@@ -150,4 +156,24 @@ class TaskList extends Component {
   }
 }
 
-export default TaskList;
+TaskList.propTypes = {
+
+}
+
+const mapeStateToProps = state => {
+  return {
+    taskList: state.taskList
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    taskList: dispatch.taskList
+  }
+}
+
+const AsdTaskList = connect(
+  mapeStateToProps,
+  mapDispatchToProps
+)(TaskList)
+
+export default AsdTaskList;
